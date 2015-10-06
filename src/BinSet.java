@@ -148,7 +148,7 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     }
           
     // Comments
-    @Override
+   
     public Iterator<E> iterator() {
        return s.iterator();
         // YOUR CODE GOES HERE
@@ -269,8 +269,26 @@ Set<Integer> set = new BinSet<Integer>(Arrays.asList(1,3));
 	resultTest("addAll 1",set.size() == 3);
 	
 	resultTest("containsAll 1", set.containsAll(Arrays.asList(3,2)));
-        System.out.print(set);
 	resultTest("containsAll 2", !set.containsAll(Arrays.asList(4,3)));
+	
+	set.remove(2);
+	resultTest("remove 1", 
+		   Arrays.equals(set.toArray(), Arrays.asList(1,3).toArray()));
+	
+	Integer[] a = {1,3};
+	int j = 0;
+	for (Integer i : set){
+	    resultTest("iterator " + i, i.equals(a[j]));
+	    j++;
+	}
+	
+	set.retainAll(Arrays.asList(3,4));
+	resultTest("retainAll 1", 
+		   Arrays.equals(set.toArray(), Arrays.asList(3).toArray()));
+	
+	resultTest("toArray(array) 1", 
+		   Arrays.equals(set.toArray(new Integer[0]), 
+				 Arrays.asList(3).toArray()));
         
     }
 
