@@ -30,24 +30,29 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
      *
      */
     public int binarySearch(E e){
-        int start = 1 ;
-        int middle = (int)Math.floor(s.size()/2);
-        int end = s.size();
-        while(start<end || middle!=0 && s.get(middle).compareTo(e)!=0){
+        if(s.isEmpty())
+            return -1;
+        int start=0;
+        int end=s.size()-1;
+        int middle =s.size()/2;
+      
+        while(middle>=start && middle<=end)
+        {
            if(s.get(middle).compareTo(e)==0)
                return middle;
-           else if(s.get(middle).compareTo(e)>0){
-               start=middle;
-               middle = (start+end)/2;
-               start++;
-           }
-           else{
-               end = middle;
-               middle = (start+end+1)/2;
-               end--;
-               
-           }
-               
+           else if(start==end)
+               return -1;
+            if(s.get(middle).compareTo(e)<0){
+                
+                start=middle;
+                start++;
+                 middle = (end+middle+1)/2;
+            }
+            if(s.get(middle).compareTo(e)>0){
+                end=middle;
+                end--;
+                 middle=(end+middle)/2;
+            }
         }
         return -1;
     }
