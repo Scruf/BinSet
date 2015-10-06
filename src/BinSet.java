@@ -132,7 +132,13 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     // Comments
     @Override
     public boolean containsAll(Collection<?> c) {
-         return true;
+       for(Object q : c){
+          if(c.contains(q))
+              return true;
+       }
+       
+       return false;
+      
     }
 
     // Comments
@@ -144,7 +150,7 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     // Comments
     @Override
     public Iterator<E> iterator() {
-        return null;
+       return s.iterator();
         // YOUR CODE GOES HERE
     }
     
@@ -238,15 +244,13 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
      */
 
     private static void testInteger(){
-	Set<Integer> set = new BinSet<>(Arrays.asList(1,3));
+Set<Integer> set = new BinSet<Integer>(Arrays.asList(1,3));
 	
 	resultTest("constructor 1",
 		   Arrays.equals(set.toArray(), Arrays.asList(1,3).toArray()));
 	
 	set.add(2);
-      
-        System.out.println("set after adding 2 is "+set);
-        resultTest("add 1",
+	resultTest("add 1",
 		   Arrays.equals(set.toArray(), 
 				 Arrays.asList(1,2,3).toArray()));
 	
@@ -254,18 +258,20 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
 	resultTest("contains 2", set.contains(2));
 	resultTest("contains 3", set.contains(3));
 	resultTest("contains 4", !set.contains(4));
-      
-        resultTest("size 1", set.size() == 3);
+	
+	resultTest("size 1", set.size() == 3);
+	
 	set.clear();
-        System.out.println("The set after removal is "+set);
 	resultTest("clear/size", set.size() == 0);
 	resultTest("clear/isEmpty", set.isEmpty());
-         
-        set.addAll(Arrays.asList(1,2,3));
-        
+	
+	set.addAll(Arrays.asList(1,2,3));
 	resultTest("addAll 1",set.size() == 3);
-        System.out.println("Set is "+set);
-       
+	
+	resultTest("containsAll 1", set.containsAll(Arrays.asList(3,2)));
+        System.out.print(set);
+	resultTest("containsAll 2", !set.containsAll(Arrays.asList(4,3)));
+        
     }
 
     /**
