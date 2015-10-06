@@ -29,9 +29,27 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
      *                     or -1 indicating failure to find e.
      *
      */
-    private int binarySearch(E e){
-      
-      return 0;
+    public int binarySearch(E e){
+        int start = 1 ;
+        int middle = (int)Math.floor(s.size()/2);
+        int end = s.size();
+        while(start<end || middle!=0 && s.get(middle).compareTo(e)!=0){
+           if(s.get(middle).compareTo(e)==0)
+               return middle;
+           else if(s.get(middle).compareTo(e)>0){
+               start=middle;
+               middle = (start+end)/2;
+               start++;
+           }
+           else{
+               end = middle;
+               middle = (start+end+1)/2;
+               end--;
+               
+           }
+               
+        }
+        return -1;
     }
 
     // Comments
@@ -65,10 +83,10 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     // Comments
     @Override
     public boolean addAll(Collection<? extends E> c) {
-      
+      boolean added = false;
        for(E q : c)
        {
-           System.out.print("Sets are "+q);
+          
            
           if(s.isEmpty()){
            
@@ -79,15 +97,15 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
               {
                   s.add(q);
 
-                  return true;
+                  added = true;
               }
               else{
                   s.add(q);
-                  return false;
+                  added= false;
               }
           }
        }
-     return true;
+     return added;
     }
 
     // Comments
@@ -100,8 +118,11 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean contains(Object o) {
-           return s.contains(o);
-    }
+        if(binarySearch((E)o)==-1)
+            return false;
+        else
+            return true;
+      }
 
     // Comments
     @Override
@@ -236,8 +257,10 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
 	resultTest("clear/isEmpty", set.isEmpty());
          
         set.addAll(Arrays.asList(1,2,3));
-        System.out.print("The set after adding all elements is "+set);
+        
 	resultTest("addAll 1",set.size() == 3);
+        System.out.println("Set is "+set);
+       
     }
 
     /**
