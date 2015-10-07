@@ -130,14 +130,9 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
       }
 
     // Comments
-    @Override
+  
     public boolean containsAll(Collection<?> c) {
-       for(Object q : c){
-          if(c.contains(q))
-              return true;
-       }
-       
-       return false;
+       return s.containsAll(c);
       
     }
 
@@ -166,9 +161,9 @@ public class BinSet<E extends Comparable<? super E>> extends AbstractSet<E> {
     }
      
     // Comments
-    @Override
+   
     public boolean retainAll(Collection<?> c) {
-      return true;
+      return s.retainAll(c);
     }
     
   // Comments
@@ -291,6 +286,53 @@ Set<Integer> set = new BinSet<Integer>(Arrays.asList(1,3));
 				 Arrays.asList(3).toArray()));
         
     }
+private static void testDouble(){
+Set<Double> set = new BinSet<Double>(Arrays.asList(1.2,3.1));
+	
+	resultTest("constructor 1",
+		   Arrays.equals(set.toArray(), Arrays.asList(1.2,3.1).toArray()));
+	
+	set.add(2.3);
+	resultTest("add 1",
+		   Arrays.equals(set.toArray(), 
+				 Arrays.asList(1.2,2.3,3.1).toArray()));
+	
+	resultTest("contains 1", set.contains(1.2));
+	resultTest("contains 2", set.contains(2.3));
+	resultTest("contains 3", set.contains(3.1));
+	resultTest("contains 4", !set.contains(4.5));
+	
+	resultTest("size 1", set.size() == 3);
+	
+	set.clear();
+	resultTest("clear/size", set.size() == 0);
+	resultTest("clear/isEmpty", set.isEmpty());
+	
+	set.addAll(Arrays.asList(1.2,2.3,3.1));
+	resultTest("addAll 1",set.size() == 3);
+	
+	resultTest("containsAll 1", set.containsAll(Arrays.asList(3.1,2.3)));
+	resultTest("containsAll 2", !set.containsAll(Arrays.asList(4.5,3.1)));
+	
+	set.remove(2.3);
+	resultTest("remove 1", 
+		   Arrays.equals(set.toArray(), Arrays.asList(1.2,3.1).toArray()));
+	
+	Double[] a = {1.2,3.1};
+	int j = 0;
+	for (Double i : set){
+	    resultTest("iterator " + i, i.equals(a[j]));
+	    j++;
+	}
+	
+	set.retainAll(Arrays.asList(3.1,4.5));
+	resultTest("retainAll 1", 
+		   Arrays.equals(set.toArray(), Arrays.asList(3.1).toArray()));
+	
+	resultTest("toArray(array) 1", 
+		   Arrays.equals(set.toArray(new Double[0]), 
+				 Arrays.asList(3.1).toArray()));
+    }
 
     /**
      * The main method for BinSet.  It runs any test scaffolding methods 
@@ -302,6 +344,8 @@ Set<Integer> set = new BinSet<Integer>(Arrays.asList(1,3));
 
     public static void main(String[] args){
 	testInteger();
+        System.out.println();
+        testDouble();
    }
 
 }
