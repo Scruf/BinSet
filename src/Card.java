@@ -13,25 +13,28 @@ public class Card {
    public enum Suit{
       Clubs,Diamonds,Heart,Spades
     };
-    private Ranks r;
-    private java.lang.String s;
+    public Ranks r;
+    public java.lang.String s;
     public Card(Ranks r, java.lang.String s){
         this.r=r;
         this.s=s;
     }
 
     /**
-     *
+     *check to see if you are trying to compare to itself
+     * Typecast @param o to Card so to be able to access variables
+     * comparing all data members
      * @param o
      * @return
      */
     @Override
    public boolean equals(Object o){
+       //if the object is compared to itself than return true
        if(o==this)
            return true;
-       if(!(o instanceof Card))
-           return false;
+       //Typecast o to card so we can compare datat members
        Card card =  (Card)o;
+       //Compare the data memebers 
        return r.compareTo(card.r) == 0 && s.compareTo(card.s) == 0;
        
    }
@@ -91,7 +94,7 @@ public class Card {
      
         Object o = c;
         c=(Card)o;
-        System.out.println("The values are "+comparator1+" "+comparator2);
+        
         if(comparator1==comparator2 && r.getValue()==c.r.getValue())
             number= 0;
         //same suit but different number
